@@ -17,10 +17,10 @@ function App() {
 
 
 
-  const Weatherapi = () => {
+  const Weatherapi = async () => {
     const country = document.querySelector("#country");
 
-    axios.get(`http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${'itaborai'}&aqi=no`)
+   await axios.get(`http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${'itaborai'}&aqi=no`)
       .then((e) => {
         setLocation(e.data.location.name)
         setregion(e.data.location.region)
@@ -55,6 +55,19 @@ function App() {
     }, 200);
     
   }
+
+  const closeAnimationOpenScreen = ()=>{
+    const screen = document.querySelector(".container__search__screen")
+    screen.style.opacity=0
+    
+    setTimeout(() => {
+    screen.style.display='none'
+
+
+      
+    }, 200);
+    
+  }
   const MinTemperature = Math.round(temperature - temperature / 100 * 10) + 'º'
   const MaxTemperature = Math.round(temperature + temperature / 100 * 10) + 'º'
 
@@ -64,7 +77,7 @@ function App() {
         <div className="container__search">
           <h1>Meteorologia em tempo <span>Real</span></h1>
           <div className="container__search__screen">
-            <span className='container__search__screen__close'>
+            <span className='container__search__screen__close' onClick={closeAnimationOpenScreen}>
             <FontAwesomeIcon icon={faXmark}/>
             </span>
             <strong>{location}, {region} - {country}</strong>
