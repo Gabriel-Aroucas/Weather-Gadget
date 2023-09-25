@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import "./AppStyle/App.css"
 import { useState } from 'react'
@@ -13,6 +13,7 @@ function App() {
   const [sensation, setSensation] = useState('')
   const [wind, setWind] = useState('')
   const [humidity, setHumidity] = useState('')
+  const [UV, setUV] = useState('')
 
 
 
@@ -26,18 +27,34 @@ function App() {
         setCountry(e.data.location.country)
 
         setTemperature(e.data.current.temp_c)
-        setCondition(e.data.current.condition.text)
+
+        switch (e.data.current.condition.text) {
+          case 'Partly cloudy': setCondition('Parcialmente Nublado')
+        }
 
         setSensation(Math.round(e.data.current.feelslike_c) + 'º')
         setWind(Math.round(e.data.current.wind_kph) + 'KM/h')
         setHumidity(Math.round(e.data.current.humidity) + '%')
+        setUV(e.data.current.uv)
 
 
         console.log(e.data)
       })
 
+    animationOpenScreen()
+
   }
 
+  const animationOpenScreen = () => {
+    const screen = document.querySelector(".container__search__screen")
+    screen.style.display='block'
+    setTimeout(() => {
+      screen.style.transition='200ms'
+    screen.style.opacity=1
+      
+    }, 200);
+    
+  }
   const MinTemperature = Math.round(temperature - temperature / 100 * 10) + 'º'
   const MaxTemperature = Math.round(temperature + temperature / 100 * 10) + 'º'
 
@@ -45,30 +62,34 @@ function App() {
     <>
       <section className="container">
         <div className="container__search">
-          <h1>Previsão do Tempo</h1>
+          <h1>Meteorologia em tempo <span>Real</span></h1>
           <div className="container__search__screen">
+            <span className='container__search__screen__close'>
+            <FontAwesomeIcon icon={faXmark}/>
+            </span>
             <strong>{location}, {region} - {country}</strong>
-            <h1>{temperature}º - {condition}</h1>
+            <h1>{temperature}ºC<span>{condition}</span></h1>
             <div className="container__search__screen__average">
 
-              <table className="minmax">
+              <table className="container_search_screen_avarange_minmax">
                 <tbody>
                   <tr>
-                    <td className="minmax__icon"><FontAwesomeIcon icon={faArrowDown} />Min <strong>{MinTemperature}</strong></td>
-                    <td className="minmax__icon"><FontAwesomeIcon icon={faArrowUp} />Max <strong>{MaxTemperature}</strong></td>
-                    <td>Sensação {sensation}</td>
+                    <td className="container_search_screen_avarange_minmax__icon"><FontAwesomeIcon icon={faArrowDown} /> <strong>{MinTemperature}</strong></td>
+                    <td className="container_search_screen_avarange_minmax__icon"><FontAwesomeIcon icon={faArrowUp} /> <strong>{MaxTemperature}</strong></td>
+                    <td>Sensação <strong>{sensation}</strong></td>
                   </tr>
 
                   <tr>
-                    <td>Vento {wind}</td>
-                    <td>Humidade {humidity}</td>
+                    <td>Vento <strong>{wind}</strong></td>
+                    <td>Humidade <strong>{humidity}</strong></td>
+                    <td>Índice UV <strong>{UV}</strong></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <article className="container__search__inputAlign">
-            <input type="text" id="country" placeholder='insira aqui o nome da cidade' />
+            <input type="text" id="country" name='text' placeholder='insira aqui o nome da cidade' />
             <i onClick={Weatherapi}><FontAwesomeIcon icon={faMagnifyingGlass} /></i>
           </article>
         </div>

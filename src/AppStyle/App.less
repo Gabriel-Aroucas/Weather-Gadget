@@ -1,36 +1,90 @@
 @import url("../config/LessVariables/variables.less");
 
-body{
+body {
     min-height: 100vh;
-    background:-webkit-linear-gradient( @gradientOne, @gradientTwo);
+    background: -webkit-linear-gradient(@gradientOne, @gradientTwo);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-family: sans-serif;
-    color: #fff;
 
-    
 }
 
-.container{
-    .container__search{
-        h1{
-            font-size: 3rem;
+.container {
+    text-align: center;
+
+    .container__search {
+        h1:nth-child(1) {
+            color: #fff;
+            font-size: 2rem;
+            width: 100%;
+            margin: 1rem 0;
         }
-        .container__search__inputAlign{
+
+        .container__search__screen {
+            position: relative;
+            background-color: #fff3e4;
+            padding: 1rem;
+            display: none;
+            opacity: 0;
+            h1 {
+                font-size: 2.5rem;
+                display: flex;
+                flex-direction: column;
+                line-height: 50px;
+                color: #505050;
+            }
+    
+            .container__search__screen__close{
+                position: absolute;
+                right: 20px;
+                color: @gradientOne;
+                cursor: pointer;
+            }
+            strong {
+                font-family: sans-serif;
+                color: #505050;
+            }
+
+            .container__search__screen__average {
+                table {
+                    width: 100%;
+
+                    tr {
+                        td {
+                            font-family: montserrat;
+                            font-weight: 100;
+
+                        }
+                    }
+                }
+            }
+
+            .container_search_screen_avarange_minmax__icon {
+                color: @gradientOne;
+
+            }
+        }
+
+        .container__search__inputAlign {
             position: relative;
             width: 100%;
-            input{
+            margin-top: 10px;
+
+            input {
                 width: 95%;
-                padding: 0.5rem;
+                padding: 1rem;
+                border: none;
             }
-            i{
+
+            i {
                 position: absolute;
                 right: 15px;
-                color: #000;
+                color: #505050;
                 top: 50%;
                 transform: translateY(-50%);
+                font-size: 20px;
             }
         }
     }

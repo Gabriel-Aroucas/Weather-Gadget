@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Ew-.ttf) format('truetype');
+}
 body {
   min-height: 100vh;
   background: -webkit-linear-gradient(#FF8000, #FFB700);
@@ -6,23 +13,65 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: sans-serif;
-  color: #fff;
 }
-.container .container__search h1 {
-  font-size: 3rem;
+.container {
+  text-align: center;
+}
+.container .container__search h1:nth-child(1) {
+  color: #fff;
+  font-size: 2rem;
+  width: 100%;
+  margin: 1rem 0;
+}
+.container .container__search .container__search__screen {
+  position: relative;
+  background-color: #fff3e4;
+  padding: 1rem;
+  display: none;
+  opacity: 0;
+}
+.container .container__search .container__search__screen h1 {
+  font-size: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  line-height: 50px;
+  color: #505050;
+}
+.container .container__search .container__search__screen .container__search__screen__close {
+  position: absolute;
+  right: 20px;
+  color: #FF8000;
+  cursor: pointer;
+}
+.container .container__search .container__search__screen strong {
+  font-family: sans-serif;
+  color: #505050;
+}
+.container .container__search .container__search__screen .container__search__screen__average table {
+  width: 100%;
+}
+.container .container__search .container__search__screen .container__search__screen__average table tr td {
+  font-family: montserrat;
+  font-weight: 100;
+}
+.container .container__search .container__search__screen .container_search_screen_avarange_minmax__icon {
+  color: #FF8000;
 }
 .container .container__search .container__search__inputAlign {
   position: relative;
   width: 100%;
+  margin-top: 10px;
 }
 .container .container__search .container__search__inputAlign input {
   width: 95%;
-  padding: 0.5rem;
+  padding: 1rem;
+  border: none;
 }
 .container .container__search .container__search__inputAlign i {
   position: absolute;
   right: 15px;
-  color: #000;
+  color: #505050;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 20px;
 }
