@@ -1,0 +1,28 @@
+body {
+  min-height: 100vh;
+  background: -webkit-linear-gradient(#FF8000, #FFB700);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: sans-serif;
+  color: #fff;
+}
+.container .container__search h1 {
+  font-size: 3rem;
+}
+.container .container__search .container__search__inputAlign {
+  position: relative;
+  width: 100%;
+}
+.container .container__search .container__search__inputAlign input {
+  width: 95%;
+  padding: 0.5rem;
+}
+.container .container__search .container__search__inputAlign i {
+  position: absolute;
+  right: 15px;
+  color: #000;
+  top: 50%;
+  transform: translateY(-50%);
+}

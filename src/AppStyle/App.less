@@ -1,0 +1,37 @@
+@import url("../config/LessVariables/variables.less");
+
+body{
+    min-height: 100vh;
+    background:-webkit-linear-gradient( @gradientOne, @gradientTwo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: sans-serif;
+    color: #fff;
+
+    
+}
+
+.container{
+    .container__search{
+        h1{
+            font-size: 3rem;
+        }
+        .container__search__inputAlign{
+            position: relative;
+            width: 100%;
+            input{
+                width: 95%;
+                padding: 0.5rem;
+            }
+            i{
+                position: absolute;
+                right: 15px;
+                color: #000;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
