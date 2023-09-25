@@ -15,12 +15,20 @@ function App() {
   const [humidity, setHumidity] = useState('')
   const [UV, setUV] = useState('')
 
-
+//caso aperte enter, rode a função para não depender do click no icone da lupa.
+  document.addEventListener("keypress", (e) => {
+    switch (e.code) {
+      case 'Enter': Weatherapi()
+    }
+  })
 
   const Weatherapi = async () => {
     const country = document.querySelector("#country");
+    
+    //validando o campo do input, caso esteja vazio
+    country.value.length == 0 ? alert("Digite o nome de uma cidade") : ''
 
-   await axios.get(`http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${'itaborai'}&aqi=no`)
+    await axios.get(`http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${country.value}&aqi=no`)
       .then((e) => {
         setLocation(e.data.location.name)
         setregion(e.data.location.region)
@@ -28,8 +36,14 @@ function App() {
 
         setTemperature(e.data.current.temp_c)
 
-        switch (e.data.current.condition.text) {
-          case 'Partly cloudy': setCondition('Parcialmente Nublado')
+        if (e.data.current.condition.text == 'Partly cloudy') {
+          setCondition('Parcialmente Nublado')
+        } else if (e.data.current.condition.text == 'Clear') {
+          setCondition('Limpo')
+        } else if (e.data.current.condition.text == 'Sunny') {
+          setCondition('Sol')
+        } else {
+          setCondition(e.data.current.condition.text)
         }
 
         setSensation(Math.round(e.data.current.feelslike_c) + 'º')
@@ -47,26 +61,26 @@ function App() {
 
   const animationOpenScreen = () => {
     const screen = document.querySelector(".container__search__screen")
-    screen.style.display='block'
+    screen.style.display = 'block'
     setTimeout(() => {
-      screen.style.transition='200ms'
-    screen.style.opacity=1
-      
+      screen.style.transition = '200ms'
+      screen.style.opacity = 1
+
     }, 200);
-    
+
   }
 
-  const closeAnimationOpenScreen = ()=>{
+  const closeAnimationOpenScreen = () => {
     const screen = document.querySelector(".container__search__screen")
-    screen.style.opacity=0
-    
+    screen.style.opacity = 0
+
     setTimeout(() => {
-    screen.style.display='none'
+      screen.style.display = 'none'
 
 
-      
+
     }, 200);
-    
+
   }
   const MinTemperature = Math.round(temperature - temperature / 100 * 10) + 'º'
   const MaxTemperature = Math.round(temperature + temperature / 100 * 10) + 'º'
@@ -78,7 +92,7 @@ function App() {
           <h1>Meteorologia em tempo <span>Real</span></h1>
           <div className="container__search__screen">
             <span className='container__search__screen__close' onClick={closeAnimationOpenScreen}>
-            <FontAwesomeIcon icon={faXmark}/>
+              <FontAwesomeIcon icon={faXmark} />
             </span>
             <strong>{location}, {region} - {country}</strong>
             <h1>{temperature}ºC<span>{condition}</span></h1>
