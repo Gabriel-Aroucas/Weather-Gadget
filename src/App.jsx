@@ -20,37 +20,33 @@ function App() {
   const [user, setUser] = useState(0)
 
 
-
+/**
+ *  A cada vez que a pagina renderiza, pegar a localização e armazenar no estado;
+ *  e roda a api com os resultados do estado sempre que a pagina for atualizada.
+ */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(location => {
       setLatitude(location.coords.latitude + ',')
       setLongitude(location.coords.longitude)
     })
-
     Weatherapi()
 
   })
 
 
-  //caso aperte enter, rode a função para não depender do click no icone da lupa.
+  //caso o usuario aperte enter, rode a função para não depender do click no icone da lupa apenas.
   document.addEventListener("keypress", (e) => {
     switch (e.code) {
       case 'Enter': Weatherapi()
     }
   })
 
+
   const Weatherapi = async () => {
 
-    if(latitude.length ==0){
       const city = document.querySelector("#city")
       setManualLocation(city.value)
-    } else if(latitude.length > 0 ){
-      const city = document.querySelector("#city")
-      setManualLocation(city.value)
-    }
 
-
-    //integração com a api do weather
     const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude}${longitude}${manualLocation}&aqi=no`;
     const config = {
       headers: {
@@ -73,6 +69,8 @@ function App() {
         "Server": "BunnyCDN-DE1-1047",
       }
     };
+    
+    //integração com a api do weather
     await axios.get(url, config)
       .then((e) => {
         setLocation(e.data.location.name)
