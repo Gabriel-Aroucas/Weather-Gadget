@@ -16,17 +16,21 @@ function App() {
   const [UV, setUV] = useState('')
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
+  const [manualLocation, setManualLocation] = useState('')
   const [user, setUser] = useState(0)
 
-  setUser(user+1)
-  console.log(user)
-  if (user == 1) {
-      navigator.geolocation.getCurrentPosition(location => {
-      setLatitude(location.coords.latitude)
+
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(location => {
+      setLatitude(location.coords.latitude + ',')
       setLongitude(location.coords.longitude)
-      Weatherapi
     })
-  }
+
+    Weatherapi()
+
+  })
+
 
   //caso aperte enter, rode a função para não depender do click no icone da lupa.
   document.addEventListener("keypress", (e) => {
@@ -37,8 +41,17 @@ function App() {
 
   const Weatherapi = async () => {
 
+    if(latitude.length ==0){
+      const city = document.querySelector("#city")
+      setManualLocation(city.value)
+    } else if(latitude.length > 0 ){
+      const city = document.querySelector("#city")
+      setManualLocation(city.value)
+    }
+
+
     //integração com a api do weather
-    const url = `http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude},${longitude}&aqi=no`;
+    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude}${longitude}${manualLocation}&aqi=no`;
     const config = {
       headers: {
         "Vary": "Accept-Encoding",
@@ -60,7 +73,6 @@ function App() {
         "Server": "BunnyCDN-DE1-1047",
       }
     };
-
     await axios.get(url, config)
       .then((e) => {
         setLocation(e.data.location.name)
@@ -88,6 +100,7 @@ function App() {
         setWind(Math.round(e.data.current.wind_kph) + 'KM/h')
         setHumidity(Math.round(e.data.current.humidity) + '%')
         setUV(e.data.current.uv)
+
 
       })
 
@@ -157,7 +170,7 @@ function App() {
           </div>
           <article className="container__search__inputAlign">
             <input type="text" id="city" name='text' placeholder='insira aqui o nome da cidade' />
-            <i onClick={Weatherapi}><FontAwesomeIcon icon={faMagnifyingGlass} /></i>
+            <i id='magnifyGlass' onClick={Weatherapi}><FontAwesomeIcon icon={faMagnifyingGlass} /></i>
           </article>
         </div>
       </section>
