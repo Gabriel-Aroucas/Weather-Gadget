@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import "./AppStyle/App.css"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function App() {
   const [country, setCountry] = useState('')
@@ -14,6 +14,19 @@ function App() {
   const [wind, setWind] = useState('')
   const [humidity, setHumidity] = useState('')
   const [UV, setUV] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
+  const [user, setUser] = useState(0)
+
+  setUser(user+1)
+  console.log(user)
+  if (user == 1) {
+      navigator.geolocation.getCurrentPosition(location => {
+      setLatitude(location.coords.latitude)
+      setLongitude(location.coords.longitude)
+      Weatherapi
+    })
+  }
 
   //caso aperte enter, rode a função para não depender do click no icone da lupa.
   document.addEventListener("keypress", (e) => {
@@ -23,13 +36,9 @@ function App() {
   })
 
   const Weatherapi = async () => {
-    const country = document.querySelector("#country");
-
-    //validando o campo do input, caso esteja vazio
-    country.value.length == 0 ? alert("Digite o nome de uma cidade") : ''
 
     //integração com a api do weather
-    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${country.value}&aqi=no`;
+    const url = `http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude},${longitude}&aqi=no`;
     const config = {
       headers: {
         "Vary": "Accept-Encoding",
@@ -51,7 +60,7 @@ function App() {
         "Server": "BunnyCDN-DE1-1047",
       }
     };
-    
+
     await axios.get(url, config)
       .then((e) => {
         setLocation(e.data.location.name)
@@ -69,6 +78,8 @@ function App() {
           setCondition('Sol')
         } else if (e.data.current.condition.text == 'Mist') {
           setCondition('Névoa')
+        } else if (e.data.current.condition.text == 'Overcast') {
+          setCondition('Nublado')
         } else {
           setCondition(e.data.current.condition.text)
         }
@@ -79,7 +90,6 @@ function App() {
         setUV(e.data.current.uv)
 
       })
-      .catch((err) => { console.log(err) })
 
     //após o await rodar a animação da abertura do modal
     animationOpenScreen()
@@ -116,6 +126,7 @@ function App() {
   const MinTemperature = Math.round(temperature - temperature / 100 * 10) + 'º'
   const MaxTemperature = Math.round(temperature + temperature / 100 * 10) + 'º'
 
+
   return (
     <>
       <section className="container">
@@ -145,7 +156,7 @@ function App() {
             </div>
           </div>
           <article className="container__search__inputAlign">
-            <input type="text" id="country" name='text' placeholder='insira aqui o nome da cidade' />
+            <input type="text" id="city" name='text' placeholder='insira aqui o nome da cidade' />
             <i onClick={Weatherapi}><FontAwesomeIcon icon={faMagnifyingGlass} /></i>
           </article>
         </div>
