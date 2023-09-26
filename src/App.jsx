@@ -15,7 +15,7 @@ function App() {
   const [humidity, setHumidity] = useState('')
   const [UV, setUV] = useState('')
 
-//caso aperte enter, rode a função para não depender do click no icone da lupa.
+  //caso aperte enter, rode a função para não depender do click no icone da lupa.
   document.addEventListener("keypress", (e) => {
     switch (e.code) {
       case 'Enter': Weatherapi()
@@ -29,7 +29,30 @@ function App() {
     country.value.length == 0 ? alert("Digite o nome de uma cidade") : ''
 
     //integração com a api do weather
-    await axios.get(`http://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${country.value}&aqi=no`)
+    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${country.value}&aqi=no`;
+    const config = {
+      headers: {
+        "Vary": "Accept-Encoding",
+        "CDN-PullZone": "93447",
+        "CDN-Uid": "8fa3a04a-75d9-4707-8056-b7b33c8ac7fe",
+        "CDN-RequestCountryCode": "GB",
+        "Age": "0",
+        "CDN-ProxyVer": "1.04",
+        "CDN-RequestPullSuccess": "True",
+        "CDN-RequestPullCode": "200",
+        "CDN-CachedAt": "09/25/2023 18:42:50",
+        "CDN-EdgeStorageId": "1048",
+        "CDN-Status": "200",
+        "CDN-RequestId": "a0c300c97cb1c93e884e047a5f97efca",
+        "CDN-Cache": "MISS",
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "public, max-age=180",
+        "Content-Type": "application/json",
+        "Server": "BunnyCDN-DE1-1047",
+      }
+    };
+    
+    await axios.get(url, config)
       .then((e) => {
         setLocation(e.data.location.name)
         setregion(e.data.location.region)
@@ -44,6 +67,8 @@ function App() {
           setCondition('Limpo')
         } else if (e.data.current.condition.text == 'Sunny') {
           setCondition('Sol')
+        } else if (e.data.current.condition.text == 'Mist') {
+          setCondition('Névoa')
         } else {
           setCondition(e.data.current.condition.text)
         }
@@ -54,6 +79,7 @@ function App() {
         setUV(e.data.current.uv)
 
       })
+      .catch((err) => { console.log(err) })
 
     //após o await rodar a animação da abertura do modal
     animationOpenScreen()
