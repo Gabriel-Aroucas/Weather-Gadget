@@ -17,7 +17,7 @@ function App() {
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const [manualLocation, setManualLocation] = useState('')
-  const [user, setUser] = useState(0)
+  //const [user, setUser] = useState(0)
 
 
 /**
@@ -80,19 +80,16 @@ function App() {
         setTemperature(e.data.current.temp_c)
 
         //traduzindo informações de EN para PT-BR do json
-        if (e.data.current.condition.text == 'Partly cloudy') {
-          setCondition('Parcialmente Nublado')
-        } else if (e.data.current.condition.text == 'Clear') {
-          setCondition('Limpo')
-        } else if (e.data.current.condition.text == 'Sunny') {
-          setCondition('Sol')
-        } else if (e.data.current.condition.text == 'Mist') {
-          setCondition('Névoa')
-        } else if (e.data.current.condition.text == 'Overcast') {
-          setCondition('Nublado')
-        } else {
-          setCondition(e.data.current.condition.text)
+
+        const translate = {
+          'Partly cloudy': 'Parcialmente Nublado',
+            Clear:'Limpo',
+            Sunny:'Sol',
+            Mist:'Neblina',
+            Overcast:'Nublado'
         }
+        setCondition(translate[e.data.current.condition.text])
+
         //arredondando numeros quebrados e inserindo no useState
         setSensation(Math.round(e.data.current.feelslike_c) + 'º')
         setWind(Math.round(e.data.current.wind_kph) + 'KM/h')
