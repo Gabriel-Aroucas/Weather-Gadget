@@ -31,16 +31,8 @@ function App() {
     });
   },[user]);
 
-  //caso o usuario aperte enter, rode a função para não depender do click no icone da lupa apenas.
-  document.addEventListener("keypress", (e) => {
-    switch (e.code) {
-      case "Enter":
-        Weatherapi();
-    }
-  });
-
-  const Weatherapi = async (latitude, longitude) => {
-    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude}${longitude}&aqi=no`;
+  const Weatherapi = async (latitudeProps, longitudeProps) => {
+    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitudeProps}${longitudeProps}&aqi=no`;
     const config = {
       headers: {
         Vary: "Accept-Encoding",
