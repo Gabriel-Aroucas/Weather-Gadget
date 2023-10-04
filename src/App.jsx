@@ -1,60 +1,53 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
-import "./AppStyle/App.css"
-import { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faArrowDown,
+  faArrowUp,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import "./AppStyle/App.css";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [country, setCountry] = useState('')
-  const [location, setLocation] = useState('')
-  const [region, setregion] = useState('')
-  const [temperature, setTemperature] = useState('')
-  const [condition, setCondition] = useState('')
-  const [sensation, setSensation] = useState('')
-  const [wind, setWind] = useState('')
-  const [humidity, setHumidity] = useState('')
-  const [UV, setUV] = useState('')
-  const [latitude, setLatitude] = useState('')
-  const [longitude, setLongitude] = useState('')
-  const [manualLocation, setManualLocation] = useState('')
-  //const [user, setUser] = useState(0)
+  const [country, setCountry] = useState("");
+  const [location, setLocation] = useState("");
+  const [region, setregion] = useState("");
+  const [temperature, setTemperature] = useState("");
+  const [condition, setCondition] = useState("");
+  const [sensation, setSensation] = useState("");
+  const [wind, setWind] = useState("");
+  const [humidity, setHumidity] = useState("");
+  const [UV, setUV] = useState("");
+  const [user, setuser] = useState(0);
 
-
-/**
- *  A cada vez que a pagina renderiza, pegar a localização e armazenar no estado;
- *  e roda a api com os resultados do estado sempre que a pagina for atualizada.
- */
+  /**
+   *  A página pedirá e utilizará a localização apenas na primeira renderização da mesma.
+   */
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(location => {
-      setLatitude(location.coords.latitude + ',')
-      setLongitude(location.coords.longitude)
-    })
-    Weatherapi()
-
-  })
-
+    setuser(1);
+    navigator.geolocation.getCurrentPosition((location) => {
+      Weatherapi(location.coords.latitude + ",", location.coords.longitude);
+    });
+  },[user]);
 
   //caso o usuario aperte enter, rode a função para não depender do click no icone da lupa apenas.
   document.addEventListener("keypress", (e) => {
     switch (e.code) {
-      case 'Enter': Weatherapi()
+      case "Enter":
+        Weatherapi();
     }
-  })
+  });
 
-
-  const Weatherapi = async () => {
-
-      const city = document.querySelector("#city")
-      setManualLocation(city.value)
-
-    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude}${longitude}${manualLocation}&aqi=no`;
+  const Weatherapi = async (latitude, longitude) => {
+    const url = `https://api.weatherapi.com/v1/current.json?key=742ff23b82c349f499a214120232409&q=${latitude}${longitude}&aqi=no`;
     const config = {
       headers: {
-        "Vary": "Accept-Encoding",
+        Vary: "Accept-Encoding",
         "CDN-PullZone": "93447",
         "CDN-Uid": "8fa3a04a-75d9-4707-8056-b7b33c8ac7fe",
         "CDN-RequestCountryCode": "GB",
-        "Age": "0",
+        Age: "0",
         "CDN-ProxyVer": "1.04",
         "CDN-RequestPullSuccess": "True",
         "CDN-RequestPullCode": "200",
@@ -66,111 +59,136 @@ function App() {
         "Accept-Ranges": "bytes",
         "Cache-Control": "public, max-age=180",
         "Content-Type": "application/json",
-        "Server": "BunnyCDN-DE1-1047",
-      }
+        Server: "BunnyCDN-DE1-1047",
+      },
     };
-    
+
     //integração com a api do weather
-    await axios.get(url, config)
-      .then((e) => {
-        setLocation(e.data.location.name)
-        setregion(e.data.location.region)
-        setCountry(e.data.location.country)
+    await axios.get(url, config).then((e) => {
+      setLocation(e.data.location.name);
+      setregion(e.data.location.region);
+      setCountry(e.data.location.country);
+      setTemperature(e.data.current.temp_c);
 
-        setTemperature(e.data.current.temp_c)
+      //traduzindo informações de EN para PT-BR do json
+      const translate = {
+        "Partly cloudy": "Parcialmente Nublado",
+        Clear: "Limpo",
+        Sunny: "Sol",
+        Mist: "Neblina",
+        Overcast: "Nublado",
+      };
+      setCondition(translate[e.data.current.condition.text]);
 
-        //traduzindo informações de EN para PT-BR do json
-
-        const translate = {
-          'Partly cloudy': 'Parcialmente Nublado',
-            Clear:'Limpo',
-            Sunny:'Sol',
-            Mist:'Neblina',
-            Overcast:'Nublado'
-        }
-        setCondition(translate[e.data.current.condition.text])
-
-        //arredondando numeros quebrados e inserindo no useState
-        setSensation(Math.round(e.data.current.feelslike_c) + 'º')
-        setWind(Math.round(e.data.current.wind_kph) + 'KM/h')
-        setHumidity(Math.round(e.data.current.humidity) + '%')
-        setUV(e.data.current.uv)
-
-
-      })
+      //arredondando numeros quebrados e inserindo no useState
+      setSensation(Math.round(e.data.current.feelslike_c) + "º");
+      setWind(Math.round(e.data.current.wind_kph) + "KM/h");
+      setHumidity(Math.round(e.data.current.humidity) + "%");
+      setUV(e.data.current.uv);
+    });
 
     //após o await rodar a animação da abertura do modal
-    animationOpenScreen()
-
-  }
+    animationOpenScreen();
+  };
 
   //animação da abertura do modal
   const animationOpenScreen = () => {
-    const screen = document.querySelector(".container__search__screen")
-    screen.style.display = 'block'
+    const screen = document.querySelector(".container__search__screen");
+    screen.style.display = "block";
     setTimeout(() => {
-      screen.style.transition = '200ms'
-      screen.style.opacity = 1
-
+      screen.style.transition = "200ms";
+      screen.style.opacity = 1;
     }, 200);
-
-  }
+  };
 
   //animação do fechamento do modal
   const closeAnimationOpenScreen = () => {
-    const screen = document.querySelector(".container__search__screen")
-    screen.style.opacity = 0
+    const screen = document.querySelector(".container__search__screen");
+    screen.style.opacity = 0;
 
     setTimeout(() => {
-      screen.style.display = 'none'
-
-
-
+      screen.style.display = "none";
     }, 200);
-
-  }
+  };
 
   //como a api não tem a minima e a maxima do dia, aqui adiciono 10% da temperatura do dia na maxima e retiro 10% na minima
-  const MinTemperature = Math.round(temperature - temperature / 100 * 10) + 'º'
-  const MaxTemperature = Math.round(temperature + temperature / 100 * 10) + 'º'
-
+  const MinTemperature =
+    Math.round(temperature - (temperature / 100) * 10) + "º";
+  const MaxTemperature =
+    Math.round(temperature + (temperature / 100) * 10) + "º";
 
   return (
     <>
       <section className="container">
         <div className="container__search">
-          <h1>Meteorologia em tempo <span>Real</span></h1>
+          <h1>
+            Meteorologia em tempo <span>Real</span>
+          </h1>
           <div className="container__search__screen">
-            <span className='container__search__screen__close' onClick={closeAnimationOpenScreen}>
+            <span
+              className="container__search__screen__close"
+              onClick={closeAnimationOpenScreen}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </span>
-            <strong>{location}, {region} - {country}</strong>
-            <h1>{temperature}ºC<span>{condition}</span></h1>
+            <strong>
+              {location}, {region} - {country}
+            </strong>
+            <h1>
+              {temperature}ºC<span>{condition}</span>
+            </h1>
             <div className="container__search__screen__average">
               <table className="container_search_screen_avarange_minmax">
                 <tbody>
                   <tr>
-                    <td className="container_search_screen_avarange_minmax__icon"><FontAwesomeIcon icon={faArrowDown} /> <strong>{MinTemperature}</strong></td>
-                    <td className="container_search_screen_avarange_minmax__icon"><FontAwesomeIcon icon={faArrowUp} /> <strong>{MaxTemperature}</strong></td>
-                    <td>Sensação <strong>{sensation}</strong></td>
+                    <td className="container_search_screen_avarange_minmax__icon">
+                      <FontAwesomeIcon icon={faArrowDown} />{" "}
+                      <strong>{MinTemperature}</strong>
+                    </td>
+                    <td className="container_search_screen_avarange_minmax__icon">
+                      <FontAwesomeIcon icon={faArrowUp} />{" "}
+                      <strong>{MaxTemperature}</strong>
+                    </td>
+                    <td>
+                      Sensação <strong>{sensation}</strong>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Vento <strong>{wind}</strong></td>
-                    <td>Humidade <strong>{humidity}</strong></td>
-                    <td>Índice UV <strong>{UV}</strong></td>
+                    <td>
+                      Vento <strong>{wind}</strong>
+                    </td>
+                    <td>
+                      Humidade <strong>{humidity}</strong>
+                    </td>
+                    <td>
+                      Índice UV <strong>{UV}</strong>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <article className="container__search__inputAlign">
-            <input type="text" id="city" name='text' placeholder='insira aqui o nome da cidade' />
-            <i id='magnifyGlass' onClick={Weatherapi}><FontAwesomeIcon icon={faMagnifyingGlass} /></i>
+            <input
+              type="text"
+              id="city"
+              name="text"
+              placeholder="insira aqui o nome da cidade"
+            />
+            <i
+              id="magnifyGlass"
+              onClick={() => {
+                const city = document.querySelector("#city");
+                Weatherapi(city.value, "");
+              }}
+            >
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </i>
           </article>
         </div>
       </section>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
