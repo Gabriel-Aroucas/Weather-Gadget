@@ -26,5 +26,5 @@ o Site está disponível para desktop e mobile e você pode acessá-lo clicando 
 
 
 <img src="https://i.ibb.co/6yHNzBx/Screenshot-2023-09-26-10-37-06.png">
-<img src="https://i.ibb.co/nnfnxxK/Screenshot-2023-09-26-13-45-22.png">
+<img src="https://i.ibb.co/FmnXvRW/Screenshot-2023-10-09-13-17-26.png">
 
