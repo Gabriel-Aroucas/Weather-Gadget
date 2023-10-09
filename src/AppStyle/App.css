@@ -40,11 +40,7 @@ body {
   align-items: center;
 }
 .container .container__search .container__search__screen .container__search__screen__temperature {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(20px);
+  transform: translateY(-20px);
 }
 .container .container__search .container__search__screen .container__search__screen__temperature span {
   font-size: 25px;

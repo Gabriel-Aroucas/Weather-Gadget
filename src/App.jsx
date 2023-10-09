@@ -66,6 +66,7 @@ function App() {
         Sunny: "Sol",
         Mist: "Neblina",
         Overcast: "Nublado",
+        "Light rain":"Chuva Fina",
         Brazil:"Brasil",
       };
 
@@ -84,9 +85,9 @@ function App() {
 
       setLocation(data.location);
       setregion(data.region);
-      setCountry(translate[data.country]);
+      setCountry(translate[data.country] || data.country);
       setTemperature(data.temperature);
-      setCondition(translate[data.condition]);
+      setCondition(translate[data.condition] || data.condition);
       setSensation(Math.round(data.sensation) + "º");
       setWind(Math.round(data.wind) + "KM/h");
       setHumidity(Math.round(data.humidity) + "%");
@@ -139,15 +140,14 @@ function App() {
               {location}, {region} - {country}
             </strong>
             
-            <article className="container__search__screen__temperature">
-               <img src={image} width='60px' height='60px'/> <span>{temperature}ºC</span>
-            </article>
-
             <article className="container__search__screen_condition">
             <h1>
-              {condition}
+              {condition}<img src={image} width='60px' height='60px'/>
             </h1>
-           
+            <article className="container__search__screen__temperature">
+               <span>{temperature}ºC</span>
+            </article>
+
             </article>
 
             <div className="container__search__screen__average">
