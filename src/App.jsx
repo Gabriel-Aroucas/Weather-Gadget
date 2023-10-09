@@ -20,6 +20,7 @@ function App() {
   const [humidity, setHumidity] = useState("");
   const [UV, setUV] = useState("");
   const [user, setuser] = useState(0);
+  const [image, setImage] = useState("");
 
   /**
    *  A página pedirá e utilizará a localização apenas na primeira renderização da mesma.
@@ -78,6 +79,7 @@ function App() {
         'wind':e.data.current.wind_kph,
         'humidity':e.data.current.humidity,
         'uv':e.data.current.uv,
+        'image':e.data.current.condition.icon,
       }
 
       setLocation(data.location);
@@ -89,8 +91,8 @@ function App() {
       setWind(Math.round(data.wind) + "KM/h");
       setHumidity(Math.round(data.humidity) + "%");
       setUV(data.uv);
+      setImage(data.image.replace('//','https://'))
     
-      console.log(data)
     
     });
 
@@ -128,22 +130,26 @@ function App() {
     <>
       <section className="container">
         <div className="container__search">
-          <h1>
-            Meteorologia em tempo <span>Real</span>
-          </h1>
+          <h1> Meteorologia em tempo <span>Real</span> </h1>
           <div className="container__search__screen">
-            <span
-              className="container__search__screen__close"
-              onClick={closeAnimationOpenScreen}
-            >
+            <span className="container__search__screen__close" onClick={closeAnimationOpenScreen}>
               <FontAwesomeIcon icon={faXmark} />
             </span>
             <strong>
               {location}, {region} - {country}
             </strong>
+            
+            <article className="container__search__screen__temperature">
+               <img src={image} width='60px' height='60px'/> <span>{temperature}ºC</span>
+            </article>
+
+            <article className="container__search__screen_condition">
             <h1>
-              {temperature}ºC<span>{condition}</span>
+              {condition}
             </h1>
+           
+            </article>
+
             <div className="container__search__screen__average">
               <table className="container_search_screen_avarange_minmax">
                 <tbody>
