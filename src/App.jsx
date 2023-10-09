@@ -57,11 +57,7 @@ function App() {
 
     //integração com a api do weather
     await axios.get(url, config).then((e) => {
-      setLocation(e.data.location.name);
-      setregion(e.data.location.region);
-      setCountry(e.data.location.country);
-      setTemperature(e.data.current.temp_c);
-
+    
       //traduzindo informações de EN para PT-BR do json
       const translate = {
         "Partly cloudy": "Parcialmente Nublado",
@@ -69,14 +65,33 @@ function App() {
         Sunny: "Sol",
         Mist: "Neblina",
         Overcast: "Nublado",
+        Brazil:"Brasil",
       };
-      setCondition(translate[e.data.current.condition.text]);
 
-      //arredondando numeros quebrados e inserindo no useState
-      setSensation(Math.round(e.data.current.feelslike_c) + "º");
-      setWind(Math.round(e.data.current.wind_kph) + "KM/h");
-      setHumidity(Math.round(e.data.current.humidity) + "%");
-      setUV(e.data.current.uv);
+      const data = {
+        'country':e.data.location.country,
+        'region':e.data.location.region,
+        'location':e.data.location.name,
+        'temperature':e.data.current.temp_c,
+        'condition':e.data.current.condition.text,
+        'sensation':e.data.current.feelslike_c,
+        'wind':e.data.current.wind_kph,
+        'humidity':e.data.current.humidity,
+        'uv':e.data.current.uv,
+      }
+
+      setLocation(data.location);
+      setregion(data.region);
+      setCountry(translate[data.country]);
+      setTemperature(data.temperature);
+      setCondition(translate[data.condition]);
+      setSensation(Math.round(data.sensation) + "º");
+      setWind(Math.round(data.wind) + "KM/h");
+      setHumidity(Math.round(data.humidity) + "%");
+      setUV(data.uv);
+    
+      console.log(data)
+    
     });
 
     //após o await rodar a animação da abertura do modal
