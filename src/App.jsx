@@ -27,7 +27,7 @@ function App() {
 useEffect(() => {
 	if(!sessionStorage.getItem("first_user_visit")){
 		sessionStorage.setItem("first_user_visit","true")
-  navigator.geolocation.getCurrentPosition((location) => {
+    navigator.geolocation.getCurrentPosition((location) => {
 			Weatherapi(location.coords.latitude + ",", location.coords.longitude);
 		});
 	}else{
@@ -216,6 +216,9 @@ return (
               id="city"
               name="text"
               placeholder="insira aqui o nome da cidade"
+              onChange={(e)=>{
+                Weatherapi(e.target.value,'')}
+              }
             />
             <i
               id="magnifyGlass"
