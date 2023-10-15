@@ -10,16 +10,18 @@ import "./AppStyle/App.css";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [country, setCountry] = useState();
-  const [location, setLocation] = useState();
-  const [region, setregion] = useState();
-  const [temperature, setTemperature] = useState();
-  const [condition, setCondition] = useState();
-  const [sensation, setSensation] = useState();
-  const [wind, setWind] = useState();
-  const [humidity, setHumidity] = useState();
-  const [UV, setUV] = useState();
-  const [image, setImage] = useState();
+  const [api_states, setApi_States] = useState({
+    country:'',
+    location:'',
+    region:'',
+    temperature:'',
+    condition:'',
+    sensation:'',
+    wind:'',
+    humidity:'',
+    UV:'',
+    image:'',
+  });
 
 /**
 	* @function useEffect Verificaa se é o primeiro acesso nesta sessão e caso sim, injeta na api as informações com a localização do usuário.
@@ -88,16 +90,19 @@ const Weatherapi = async (latitude_local, longitude_local) => {
 	image: e.data.current.condition.icon,
 	};
 
-	setLocation(data.location);
-	setregion(data.region);
-	setCountry(translate[data.country] || data.country);
-	setTemperature(data.temperature);
-	setCondition(translate[data.condition] || data.condition);
-	setSensation(Math.round(data.sensation) + "º");
-	setWind(Math.round(data.wind) + "KM/h");
-	setHumidity(Math.round(data.humidity) + "%");
-	setUV(data.uv);
-	setImage(data.image.replace("//", "https://")); 
+  setApi_States({
+    country:translate[data.country] || data.country,
+    location:data.location,
+    region:data.region,
+    temperature:data.temperature,
+    condition:translate[data.condition] || data.condition,
+    sensation:Math.round(data.sensation)+ "º",
+    wind:Math.round(data.wind) + "KM/h",
+    humidity:Math.round(data.humidity) + "%",
+    UV:data.uv,
+    image:data.image.replace("//", "https://"),
+
+  })
 	});
 
 	Animation_open_screen(1);
@@ -137,7 +142,7 @@ const Animation_close_screen = () => {
 			* @param percent Por parâmetro você deve passar manualmente quantos % ele deve remover da temperatura atual para classificar como a temperatura minima do dia. 
 		*/
 const Min_temperature = (percent) => {
-	const round = Math.round(temperature - (temperature / 100) * percent);
+	const round = Math.round(api_states.temperature - (api_states.temperature / 100) * percent);
 	return <>{round}º</>;
 };
   /**
@@ -146,7 +151,7 @@ const Min_temperature = (percent) => {
 			* @param percent Por parâmetro você deve passar manualmente quantos % ele deve adicionar da temperatura atual para classificar como a temperatura minima do dia. 
 		*/
 const Max_temperature = (percent) => {
-	const round = Math.round(temperature + (temperature / 100) * percent);
+	const round = Math.round(api_states.temperature + (api_states.temperature / 100) * percent);
 	return <>{round}º</>;
 };
 
@@ -166,16 +171,16 @@ return (
               <FontAwesomeIcon icon={faXmark} />
             </span>
             <strong>
-              {location}, {region} - {country}
+              {api_states.location}, {api_states.region} - {api_states.country}
             </strong>
 
             <article className="container__search__screen_condition">
               <h1>
-                {condition}
-                <img src={image} width="60px" height="60px" />
+                {api_states.condition}
+                <img src={api_states.image} width="60px" height="60px" />
               </h1>
               <article className="container__search__screen__temperature">
-                <span>{temperature}ºC</span>
+                <span>{api_states.temperature}ºC</span>
               </article>
             </article>
 
@@ -192,18 +197,18 @@ return (
                       <strong>{Max_temperature(15)}</strong>
                     </td>
                     <td>
-                      Sensação <strong>{sensation}</strong>
+                      Sensação <strong>{api_states.sensation}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      Vento <strong>{wind}</strong>
+                      Vento <strong>{api_states.wind}</strong>
                     </td>
                     <td>
-                      Humidade <strong>{humidity}</strong>
+                      Humidade <strong>{api_states.humidity}</strong>
                     </td>
                     <td>
-                      Índice UV <strong>{UV}</strong>
+                      Índice UV <strong>{api_states.UV}</strong>
                     </td>
                   </tr>
                 </tbody>
