@@ -1,16 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faArrowDown,
-  faArrowUp,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass,faArrowDown,faArrowUp,faXmark}from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./AppStyle/App.css";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [api_states, setApi_States] = useState({
+const [api_states, setApi_States] = useState({
     country:'',
     location:'',
     region:'',
@@ -21,8 +16,7 @@ function App() {
     humidity:'',
     UV:'',
     image:'',
-  });
-
+});
 /**
 	* @function useEffect Verificaa se é o primeiro acesso nesta sessão e caso sim, injeta na api as informações com a localização do usuário.
  */
@@ -36,7 +30,6 @@ useEffect(() => {
 				console.log('welcome back')
 	}
 });
-
   /**
    *
    * @param { *latitude_local Por parâmetro deve receber a latitude local do usuário. }
@@ -107,7 +100,6 @@ const Weatherapi = async (latitude_local, longitude_local) => {
 
 	Animation_open_screen(1);
 };
-
 /**
 	* @function **Animation_open_screen** Cria uma pequena transição de abertura do modal.
 	* @param speed Define a velocidade do efeito de abertura do modal.
@@ -121,8 +113,7 @@ const Animation_open_screen = (speed) => {
       screen.style.transition = `${speed*1000}ms`;
       screen.style.opacity = 1;
     }, 200);
-  };
-
+};
 		/**
 			* @function **Animation_close_screen** Cria uma pequena transição de fechamento do modal.
 			* @constant screen recebe o modal e define como opacidade 0
@@ -135,7 +126,6 @@ const Animation_close_screen = () => {
 		screen.style.display = "none";
 	}, 200);
 };
-
  /**
 			* este algorítimo recebe a temperatura local, converte em porcentagem.
    * @function **Min_temperature** esta função recebe a temperatura local, converte em porcentagem e injeta as informações no modal.
@@ -154,20 +144,13 @@ const Max_temperature = (percent) => {
 	const round = Math.round(api_states.temperature + (api_states.temperature / 100) * percent);
 	return <>{round}º</>;
 };
-
 return (
-    <>
-      <section className="container">
-        <div className="container__search">
-          <h1>
-            {" "}
-            Meteorologia em tempo <span>Real</span>{" "}
-          </h1>
+  <>
+    <section className="container">
+      <div className="container__search">
+        <h1> Meteorologia em tempo <span>Real</span> </h1>
           <div className="container__search__screen">
-            <span
-              className="container__search__screen__close"
-              onClick={Animation_close_screen}
-            >
+            <span className="container__search__screen__close" onClick={Animation_close_screen}>
               <FontAwesomeIcon icon={faXmark} />
             </span>
             <strong>
@@ -179,6 +162,7 @@ return (
                 {api_states.condition}
                 <img src={api_states.image} width="60px" height="60px" />
               </h1>
+
               <article className="container__search__screen__temperature">
                 <span>{api_states.temperature}ºC</span>
               </article>
@@ -196,20 +180,12 @@ return (
                       <FontAwesomeIcon icon={faArrowUp} />{" "}
                       <strong>{Max_temperature(15)}</strong>
                     </td>
-                    <td>
-                      Sensação <strong>{api_states.sensation}</strong>
-                    </td>
+                    <td> Sensação <strong>{api_states.sensation}</strong></td>
                   </tr>
                   <tr>
-                    <td>
-                      Vento <strong>{api_states.wind}</strong>
-                    </td>
-                    <td>
-                      Humidade <strong>{api_states.humidity}</strong>
-                    </td>
-                    <td>
-                      Índice UV <strong>{api_states.UV}</strong>
-                    </td>
+                    <td>Vento <strong>{api_states.wind}</strong></td>
+                    <td>Humidade <strong>{api_states.humidity}</strong></td>
+                    <td>Índice UV <strong>{api_states.UV}</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -238,7 +214,6 @@ return (
         </div>
       </section>
     </>
-  );
+);
 }
-
 export default App;
