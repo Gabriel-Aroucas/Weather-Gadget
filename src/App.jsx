@@ -32,7 +32,6 @@ function App() {
       sessionStorage.setItem("first_user_visit", "true");
       navigator.geolocation.getCurrentPosition((location) => {
         Weatherapi(location.coords.latitude + ",", location.coords.longitude);
-        console.log(location.coords.latitude, location.coords.longitude)
       });
     } else {
       console.log("welcome back");
@@ -231,18 +230,19 @@ function App() {
                     </td>
                     <td>
                       {" "}
-                      Sensação <strong>{api_states.sensation}</strong>
+                      <p>Sensação Térmica</p> 
+                      <strong>{api_states.sensation}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      Vento <strong>{api_states.wind}</strong>
+                      <p>Velocidade do Vento</p> <strong>{api_states.wind}</strong>
                     </td>
                     <td>
-                      Humidade <strong>{api_states.humidity}</strong>
+                      <p>Humidade</p> <strong>{api_states.humidity}</strong>
                     </td>
                     <td>
-                      Índice UV <strong>{api_states.UV}</strong>
+                      <p>Índice UV</p> <strong>{api_states.UV}</strong>
                     </td>
                   </tr>
                 </tbody>
@@ -270,7 +270,6 @@ function App() {
                     onClick={() => {
                       navigator.geolocation.getCurrentPosition((location) => {
                         Weatherapi(location.coords.latitude + ",", location.coords.longitude);
-                        console.log(location.coords.latitude, location.coords.longitude)
                       });
                     }}
                   />

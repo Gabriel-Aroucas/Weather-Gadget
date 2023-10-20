@@ -72,6 +72,7 @@ body {
 .container .container__search .container__search__screen .container__search__screen__average table tr td {
   font-family: montserrat;
   font-weight: 100;
+  padding: 0.5rem;
 }
 .container .container__search .container__search__screen .container_search_screen_avarange_minmax__icon {
   color: #1976d2;
