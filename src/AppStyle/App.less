@@ -7,18 +7,13 @@
 }
 body {
     min-height: 100vh;
-//    background: -webkit-linear-gradient(@gradientOne, @gradientTwo);
-    background-image: url('../assets/background.jpg');
     display: flex;
     justify-content: center;
+    background-color: #ffffff;
     align-items: center;
     flex-direction: column;
     font-family: sans-serif;
     overflow: hidden;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     backdrop-filter: brightness(95%);
 }
@@ -28,11 +23,11 @@ body {
 
     .container__search {
         h1:nth-child(1) {
-            color: #ffffff;
+            color:#fff;
             font-size: 2rem;
             width: 100%;
             margin: 1rem 0;
-            text-shadow: black 5px 5px 10px;
+            text-shadow: black 0px 4px 7px;
         }
 
         .container__search__screen {
@@ -62,7 +57,7 @@ body {
             .container__search__screen__close{
                 position: absolute;
                 right: 20px;
-                color: @gradientOne;
+                color: #1976d2;
                 cursor: pointer;
             }
             strong {
@@ -78,6 +73,7 @@ body {
                         td {
                             font-family: montserrat;
                             font-weight: 100;
+                            padding: 0.5rem;
 
                         }
                     }
@@ -85,7 +81,7 @@ body {
             }
 
             .container_search_screen_avarange_minmax__icon {
-                color: @gradientOne;
+                color: #1976d2;
 
             }
         }
@@ -111,4 +107,8 @@ body {
             }
         }
     }
+}
+
+#magnifyingGlass{
+    cursor: pointer;
 }

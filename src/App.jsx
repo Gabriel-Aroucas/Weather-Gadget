@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMagnifyingGlass,
   faArrowDown,
   faArrowUp,
   faXmark,
+  faLocationCrosshairs
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./AppStyle/App.css";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 
 function App() {
+
   const [api_states, setApi_States] = useState({
     country: "",
     location: "",
@@ -66,18 +67,48 @@ function App() {
       },
     };
     await axios.get(url, config).then((e) => {
+      console.log(e.data.location.localtime)
+      console.log(e.data)
+      console.log(e.data)
+      console.log(e.data)
       const translate = {
         "Partly cloudy": "Parcialmente Nublado",
-        Clear: "Limpo",
-        Sunny: "Sol",
-        Mist: "Neblina",
-        Overcast: "Nublado",
+        "Cloudy":"Nublado",
+        "Clear": "Limpo",
+        "Sunny": "Sol",
+        "Mist": "Neblina",
+        "Overcast": "Nublado",
         "Light rain": "Chuva Fina",
         "Light rain shower": "Chuva leve",
-        Brazil: "Brasil",
+        "Moderate rain":"Chuva Moderada",
         "Patchy rain possible": "Possíbilidade de Chuva",
         "Fog":"Nevoeiro",
+        "Light drizzle":"Garoa Leve",
+        "Thundery outbreaks possible":"Possíbilidade de Raios e Trovôes",
+
+        "Brazil": "Brasil",
+        "Brésil":"Brasil",
+        "Brasilien":"Brasil"
+
       };
+      const uvTransform ={
+        1:"Baixo",
+        2:"Baixo",
+        3:"Moderado",
+        4:"Moderado",
+        5:"Moderado",
+        6:"Alto",
+        7:"Alto",
+        8:"Muito Alto",
+        9:"Muito Alto",
+        10:"Muito Alto",
+        11:"Extremo",
+        12:"Extremo",
+        13:"Extremo",
+        14:"Extremo",
+        15:"Extremo",
+
+      }
       const data = {
         country: e.data.location.country,
         region: e.data.location.region,
@@ -100,7 +131,7 @@ function App() {
         sensation: Math.round(data.sensation) + "º",
         wind: Math.round(data.wind) + "KM/h",
         humidity: Math.round(data.humidity) + "%",
-        UV: data.uv,
+        UV: uvTransform[data.uv],
         image: data.image.replace("//", "https://"),
       });
     });
@@ -168,7 +199,7 @@ function App() {
               className="container__search__screen__close"
               onClick={Animation_close_screen}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon color="#1976d2s" icon={faXmark} />
             </span>
             <strong>
               {api_states.location}, {api_states.region} - {api_states.country}
@@ -199,18 +230,19 @@ function App() {
                     </td>
                     <td>
                       {" "}
-                      Sensação <strong>{api_states.sensation}</strong>
+                      <p>Sensação Térmica</p> 
+                      <strong>{api_states.sensation}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      Vento <strong>{api_states.wind}</strong>
+                      <p>Velocidade do Vento</p> <strong>{api_states.wind}</strong>
                     </td>
                     <td>
-                      Humidade <strong>{api_states.humidity}</strong>
+                      <p>Humidade</p> <strong>{api_states.humidity}</strong>
                     </td>
                     <td>
-                      Índice UV <strong>{api_states.UV}</strong>
+                      <p>Índice UV</p> <strong>{api_states.UV}</strong>
                     </td>
                   </tr>
                 </tbody>
@@ -224,7 +256,7 @@ function App() {
               name="city"
               id="city"
               sx={{
-                width:'100%'
+                width:'100%',
               }}
               onChange={(e) => {
                 Weatherapi(e.target.value, "");
@@ -232,15 +264,20 @@ function App() {
               InputProps={{
                 endAdornment: (
                   <FontAwesomeIcon
-                    icon={faMagnifyingGlass}
-                    onClick={(e) => {
-                      const TextField_Value = e.target.parentNode.firstChild.value;
-                      Weatherapi(TextField_Value, "");
+                    icon={faLocationCrosshairs}
+                    color="gray"
+                    id="magnifyingGlass"
+                    onClick={() => {
+                      navigator.geolocation.getCurrentPosition((location) => {
+                        Weatherapi(location.coords.latitude + ",", location.coords.longitude);
+                      });
                     }}
                   />
                 ),
               }}
             />
+            
+            
           </article>
         </div>
       </section>
