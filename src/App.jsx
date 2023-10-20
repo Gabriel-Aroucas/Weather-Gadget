@@ -220,7 +220,7 @@ function App() {
           </div>
           <article className="container__search__inputAlign">
             <TextField
-              variant="outlined"
+              variant="filled"
               label="Nome da cidade"
               name="city"
               id="city"
