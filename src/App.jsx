@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 
 function App() {
+
   const [api_states, setApi_States] = useState({
     country: "",
     location: "",
@@ -31,6 +32,7 @@ function App() {
       sessionStorage.setItem("first_user_visit", "true");
       navigator.geolocation.getCurrentPosition((location) => {
         Weatherapi(location.coords.latitude + ",", location.coords.longitude);
+        console.log(location.coords.latitude, location.coords.longitude)
       });
     } else {
       console.log("welcome back");
@@ -66,19 +68,46 @@ function App() {
       },
     };
     await axios.get(url, config).then((e) => {
+      console.log(e.data.location.localtime)
+      console.log(e.data)
+      console.log(e.data)
+      console.log(e.data)
       const translate = {
         "Partly cloudy": "Parcialmente Nublado",
+        "Cloudy":"Nublado",
         "Clear": "Limpo",
         "Sunny": "Sol",
         "Mist": "Neblina",
         "Overcast": "Nublado",
         "Light rain": "Chuva Fina",
         "Light rain shower": "Chuva leve",
-        "Brazil": "Brasil",
         "Patchy rain possible": "Possíbilidade de Chuva",
         "Fog":"Nevoeiro",
         "Light drizzle":"Garoa Leve",
+
+        "Brazil": "Brasil",
+        "Brésil":"Brasil",
+        "Brasilien":"Brasil"
+
       };
+      const uvTransform ={
+        1:"Baixo",
+        2:"Baixo",
+        3:"Moderado",
+        4:"Moderado",
+        5:"Moderado",
+        6:"Alto",
+        7:"Alto",
+        8:"Muito Alto",
+        9:"Muito Alto",
+        10:"Muito Alto",
+        11:"Extremo",
+        12:"Extremo",
+        13:"Extremo",
+        14:"Extremo",
+        15:"Extremo",
+
+      }
       const data = {
         country: e.data.location.country,
         region: e.data.location.region,
@@ -101,7 +130,7 @@ function App() {
         sensation: Math.round(data.sensation) + "º",
         wind: Math.round(data.wind) + "KM/h",
         humidity: Math.round(data.humidity) + "%",
-        UV: data.uv,
+        UV: uvTransform[data.uv],
         image: data.image.replace("//", "https://"),
       });
     });
