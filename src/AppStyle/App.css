@@ -7,13 +7,17 @@
 }
 body {
   min-height: 100vh;
-  background: -webkit-linear-gradient(#FF8000, #FFB700);
+  background-image: url('../assets/background.jpg');
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   font-family: sans-serif;
   overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 .container {
   text-align: center;
