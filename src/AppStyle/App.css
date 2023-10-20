@@ -63,7 +63,7 @@ body {
 .container .container__search .container__search__screen .container__search__screen__close {
   position: absolute;
   right: 20px;
-  color: #FF8000;
+  color: #1976d2;
   cursor: pointer;
 }
 .container .container__search .container__search__screen strong {
@@ -78,7 +78,7 @@ body {
   font-weight: 100;
 }
 .container .container__search .container__search__screen .container_search_screen_avarange_minmax__icon {
-  color: #FF8000;
+  color: #1976d2;
 }
 .container .container__search .container__search__inputAlign {
   position: relative;
@@ -97,4 +97,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
+}
+#magnifyingGlass {
+  cursor: pointer;
 }

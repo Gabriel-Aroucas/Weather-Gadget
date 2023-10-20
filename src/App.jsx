@@ -68,15 +68,16 @@ function App() {
     await axios.get(url, config).then((e) => {
       const translate = {
         "Partly cloudy": "Parcialmente Nublado",
-        Clear: "Limpo",
-        Sunny: "Sol",
-        Mist: "Neblina",
-        Overcast: "Nublado",
+        "Clear": "Limpo",
+        "Sunny": "Sol",
+        "Mist": "Neblina",
+        "Overcast": "Nublado",
         "Light rain": "Chuva Fina",
         "Light rain shower": "Chuva leve",
-        Brazil: "Brasil",
+        "Brazil": "Brasil",
         "Patchy rain possible": "Possíbilidade de Chuva",
         "Fog":"Nevoeiro",
+        "Light drizzle":"Garoa Leve",
       };
       const data = {
         country: e.data.location.country,
@@ -168,7 +169,7 @@ function App() {
               className="container__search__screen__close"
               onClick={Animation_close_screen}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon color="#1976d2s" icon={faXmark} />
             </span>
             <strong>
               {api_states.location}, {api_states.region} - {api_states.country}
@@ -233,6 +234,8 @@ function App() {
                 endAdornment: (
                   <FontAwesomeIcon
                     icon={faMagnifyingGlass}
+                    color="gray"
+                    id="magnifyingGlass"
                     onClick={(e) => {
                       const TextField_Value = e.target.parentNode.firstChild.value;
                       Weatherapi(TextField_Value, "");
