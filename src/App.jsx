@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMagnifyingGlass,
   faArrowDown,
   faArrowUp,
   faXmark,
+  faLocationCrosshairs
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./AppStyle/App.css";
@@ -81,9 +81,11 @@ function App() {
         "Overcast": "Nublado",
         "Light rain": "Chuva Fina",
         "Light rain shower": "Chuva leve",
+        "Moderate rain":"Chuva Moderada",
         "Patchy rain possible": "Possíbilidade de Chuva",
         "Fog":"Nevoeiro",
         "Light drizzle":"Garoa Leve",
+        "Thundery outbreaks possible":"Possíbilidade de Raios e Trovôes",
 
         "Brazil": "Brasil",
         "Brésil":"Brasil",
@@ -249,12 +251,12 @@ function App() {
           </div>
           <article className="container__search__inputAlign">
             <TextField
-              variant="filled"
+              variant="outlined"
               label="Nome da cidade"
               name="city"
               id="city"
               sx={{
-                width:'100%'
+                width:'100%',
               }}
               onChange={(e) => {
                 Weatherapi(e.target.value, "");
@@ -262,17 +264,21 @@ function App() {
               InputProps={{
                 endAdornment: (
                   <FontAwesomeIcon
-                    icon={faMagnifyingGlass}
+                    icon={faLocationCrosshairs}
                     color="gray"
                     id="magnifyingGlass"
-                    onClick={(e) => {
-                      const TextField_Value = e.target.parentNode.firstChild.value;
-                      Weatherapi(TextField_Value, "");
+                    onClick={() => {
+                      navigator.geolocation.getCurrentPosition((location) => {
+                        Weatherapi(location.coords.latitude + ",", location.coords.longitude);
+                        console.log(location.coords.latitude, location.coords.longitude)
+                      });
                     }}
                   />
                 ),
               }}
             />
+            
+            
           </article>
         </div>
       </section>
