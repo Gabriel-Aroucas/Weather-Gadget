@@ -10,6 +10,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+* strong {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: hsl(0, 0%, 31%);
+}
+* p {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 300;
+  color: #505050;
+}
 body {
   min-height: 100vh;
   display: flex;
@@ -19,28 +28,21 @@ body {
   flex-direction: column;
   font-family: sans-serif;
   overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   backdrop-filter: brightness(95%);
 }
 .container {
   text-align: center;
 }
-.container .container__search h1:nth-child(1) {
+.container__search__h1 {
   color: #fff;
   font-size: 2rem;
   width: 100%;
   margin: 1rem 0;
   text-shadow: black 0px 4px 7px;
 }
-.container .container__search .container__search__screen {
-  position: relative;
-  background-color: #ffffff;
-  padding: 1rem;
-  display: none;
-  opacity: 0;
-}
-.container .container__search .container__search__screen h1 {
-  font-size: 2.5rem;
+.container__search__screen_condition__h1 {
+  font-size: 2.3rem;
   display: flex;
   flex-direction: column;
   line-height: 50px;
@@ -48,46 +50,54 @@ body {
   align-items: center;
   text-shadow: none;
 }
-.container .container__search .container__search__screen .container__search__screen__temperature {
-  transform: translateY(-20px);
+.container__search__screen {
+  position: relative;
+  background-color: #ffffff;
+  padding: 1rem;
+  display: none;
+  opacity: 0;
 }
-.container .container__search .container__search__screen .container__search__screen__temperature span {
+.container__search__screen__temperature {
+  transform: translateY(-10px);
+}
+.container__search__screen__temperature span {
   font-size: 25px;
   font-weight: bold;
   color: #505050;
 }
-.container .container__search .container__search__screen .container__search__screen__close {
+.container__search__screen__close {
   position: absolute;
   right: 20px;
   color: #1976d2;
   cursor: pointer;
 }
-.container .container__search .container__search__screen strong {
-  font-family: sans-serif;
-  color: #505050;
-}
-.container .container__search .container__search__screen .container__search__screen__average table {
+.container__search__screen__average table {
   width: 100%;
 }
-.container .container__search .container__search__screen .container__search__screen__average table tr td {
+.container__search__screen__average table tr td {
   font-family: montserrat;
   font-weight: 100;
   padding: 0.5rem;
 }
-.container .container__search .container__search__screen .container_search_screen_avarange_minmax__icon {
+.container_search_screen_avarange_minmax__icon {
   color: #1976d2;
 }
-.container .container__search .container__search__inputAlign {
+.container_search_screen_avarange_minmax__icon strong {
+  color: #505050;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.container__search__inputAlign {
   position: relative;
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   margin-top: 10px;
 }
-.container .container__search .container__search__inputAlign input {
+.container__search__inputAlign input {
   width: 95%;
   padding: 1rem;
   border: none;
 }
-.container .container__search .container__search__inputAlign i {
+.container__search__inputAlign i {
   position: absolute;
   right: 15px;
   color: #505050;

@@ -190,8 +190,7 @@ function App() {
     <>
       <section className="container">
         <div className="container__search">
-          <h1>
-            {" "}
+          <h1 className="container__search__h1">
             Meteorologia em tempo <span>Real</span>{" "}
           </h1>
           <div className="container__search__screen">
@@ -206,7 +205,7 @@ function App() {
             </strong>
 
             <article className="container__search__screen_condition">
-              <h1>
+              <h1 className="container__search__screen_condition__h1">
                 {api_states.condition}
                 <img src={api_states.image} width="60px" height="60px" />
               </h1>
@@ -221,10 +220,12 @@ function App() {
                 <tbody>
                   <tr>
                     <td className="container_search_screen_avarange_minmax__icon">
-                      <FontAwesomeIcon icon={faArrowDown} />{" "}
+                      <p>Mínima</p>
+                      <FontAwesomeIcon icon={faArrowDown} />
                       <strong>{Min_temperature(40)}</strong>
                     </td>
                     <td className="container_search_screen_avarange_minmax__icon">
+                      <p>Máxima</p>
                       <FontAwesomeIcon icon={faArrowUp} />{" "}
                       <strong>{Max_temperature(15)}</strong>
                     </td>
@@ -257,6 +258,7 @@ function App() {
               id="city"
               sx={{
                 width:'100%',
+
               }}
               onChange={(e) => {
                 Weatherapi(e.target.value, "");
