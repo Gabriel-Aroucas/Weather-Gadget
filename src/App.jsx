@@ -3,7 +3,7 @@ import {
   faArrowDown,
   faArrowUp,
   faXmark,
-  faLocationCrosshairs
+  faLocationCrosshairs,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./AppStyle/App.css";
@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 
 function App() {
-
   const [api_states, setApi_States] = useState({
     country: "",
     location: "",
@@ -67,48 +66,42 @@ function App() {
       },
     };
     await axios.get(url, config).then((e) => {
-      console.log(e.data.location.localtime)
-      console.log(e.data)
-      console.log(e.data)
-      console.log(e.data)
       const translate = {
         "Partly cloudy": "Parcialmente Nublado",
-        "Cloudy":"Nublado",
-        "Clear": "Limpo",
-        "Sunny": "Sol",
-        "Mist": "Neblina",
-        "Overcast": "Nublado",
+        Cloudy: "Nublado",
+        Clear: "Limpo",
+        Sunny: "Sol",
+        Mist: "Neblina",
+        Overcast: "Nublado",
         "Light rain": "Chuva Fina",
         "Light rain shower": "Chuva leve",
-        "Moderate rain":"Chuva Moderada",
+        "Moderate rain": "Chuva Moderada",
         "Patchy rain possible": "Possíbilidade de Chuva",
-        "Fog":"Nevoeiro",
-        "Light drizzle":"Garoa Leve",
-        "Thundery outbreaks possible":"Possíbilidade de Raios e Trovôes",
+        Fog: "Nevoeiro",
+        "Light drizzle": "Garoa Leve",
+        "Thundery outbreaks possible": "Possíbilidade de Raios e Trovôes",
 
-        "Brazil": "Brasil",
-        "Brésil":"Brasil",
-        "Brasilien":"Brasil"
-
+        Brazil: "Brasil",
+        Brésil: "Brasil",
+        Brasilien: "Brasil",
       };
-      const uvTransform ={
-        1:"Baixo",
-        2:"Baixo",
-        3:"Moderado",
-        4:"Moderado",
-        5:"Moderado",
-        6:"Alto",
-        7:"Alto",
-        8:"Muito Alto",
-        9:"Muito Alto",
-        10:"Muito Alto",
-        11:"Extremo",
-        12:"Extremo",
-        13:"Extremo",
-        14:"Extremo",
-        15:"Extremo",
-
-      }
+      const uvTransform = {
+        1: "Baixo",
+        2: "Baixo",
+        3: "Moderado",
+        4: "Moderado",
+        5: "Moderado",
+        6: "Alto",
+        7: "Alto",
+        8: "Muito Alto",
+        9: "Muito Alto",
+        10: "Muito Alto",
+        11: "Extremo",
+        12: "Extremo",
+        13: "Extremo",
+        14: "Extremo",
+        15: "Extremo",
+      };
       const data = {
         country: e.data.location.country,
         region: e.data.location.region,
@@ -191,7 +184,7 @@ function App() {
       <section className="container">
         <div className="container__search">
           <h1 className="container__search__h1">
-            Meteorologia em tempo <span>Real</span>{" "}
+            Meteorologia em tempo <span>Real</span>
           </h1>
           <div className="container__search__screen">
             <span
@@ -226,18 +219,18 @@ function App() {
                     </td>
                     <td className="container_search_screen_avarange_minmax__icon">
                       <p>Máxima</p>
-                      <FontAwesomeIcon icon={faArrowUp} />{" "}
+                      <FontAwesomeIcon icon={faArrowUp} />
                       <strong>{Max_temperature(15)}</strong>
                     </td>
                     <td>
-                      {" "}
-                      <p>Sensação Térmica</p> 
+                      <p>Sensação Térmica</p>
                       <strong>{api_states.sensation}</strong>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <p>Velocidade do Vento</p> <strong>{api_states.wind}</strong>
+                      <p>Velocidade do Vento</p>
+                      <strong>{api_states.wind}</strong>
                     </td>
                     <td>
                       <p>Humidade</p> <strong>{api_states.humidity}</strong>
@@ -257,8 +250,7 @@ function App() {
               name="city"
               id="city"
               sx={{
-                width:'100%',
-
+                width: "100%",
               }}
               onChange={(e) => {
                 Weatherapi(e.target.value, "");
@@ -271,15 +263,16 @@ function App() {
                     id="magnifyingGlass"
                     onClick={() => {
                       navigator.geolocation.getCurrentPosition((location) => {
-                        Weatherapi(location.coords.latitude + ",", location.coords.longitude);
+                        Weatherapi(
+                          location.coords.latitude + ",",
+                          location.coords.longitude
+                        );
                       });
                     }}
                   />
                 ),
               }}
             />
-            
-            
           </article>
         </div>
       </section>
