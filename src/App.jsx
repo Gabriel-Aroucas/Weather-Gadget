@@ -23,6 +23,7 @@ function App() {
     UV: "",
     image: "",
   });
+  const [handle_auto_search, set_handle_auto_search] = useState(0);
   /**
    * @function useEffect Verificaa se é o primeiro acesso nesta sessão e caso sim, injeta na api as informações com a localização do usuário.
    */
@@ -179,6 +180,14 @@ function App() {
     );
     return <>{round}º</>;
   };
+  const handle_color_auto_search_button = (e)=>{
+    set_handle_auto_search(handle_auto_search+1) 
+    if(handle_auto_search %2 == 0){
+      e.style.color="#1976d2";
+    }else{
+      e.style.color="gray";
+    }
+  }
   return (
     <>
       <section className="container">
@@ -261,12 +270,13 @@ function App() {
                     icon={faLocationCrosshairs}
                     color="gray"
                     id="magnifyingGlass"
-                    onClick={() => {
+                    onClick={(e) => {
                       navigator.geolocation.getCurrentPosition((location) => {
                         Weatherapi(
                           location.coords.latitude + ",",
                           location.coords.longitude
                         );
+                        handle_color_auto_search_button(e.target)
                       });
                     }}
                   />
